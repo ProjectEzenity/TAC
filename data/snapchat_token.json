@@ -1,0 +1,6 @@
+{
+  "access_token": "your_snapchat_access_token_here",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "your_refresh_token_here"
+}
