@@ -39,7 +39,7 @@ pip install -r requirements.txt
 ### Project Structure
 
 ```text
-tinder-account-creator/
+TAC/
 ├── src/
 │   ├── create_account.py        # Main script to create accounts
 │   ├── utils.py                 # Utility functions
