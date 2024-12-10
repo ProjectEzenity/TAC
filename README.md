@@ -26,8 +26,8 @@ This project provides a script to create Tinder accounts using the Tinder API. I
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-repo/tinder-account-creator.git
-cd tinder-account-creator
+git clone https://github.com/ProjectEzenity/AAC.git
+cd TAC
 ```
 
 ### Install Dependencies
