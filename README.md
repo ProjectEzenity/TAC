@@ -26,7 +26,7 @@ This project provides a script to create Tinder accounts using the Tinder API. I
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/ProjectEzenity/AAC.git
+git clone https://github.com/ProjectEzenity/TAC.git
 cd TAC
 ```
 
@@ -93,6 +93,74 @@ TAC/
 
 4. **Input Data**:
    - Populate `data/input_data.xlsx` with account information (name, birth_date, gender).
+
+5. **Dynamic Headers**:
+   - The headers used for Tinder API requests are dynamically updated with session-specific data, including:
+     - `persistent-device-id`: Generated at runtime.
+     - `install-id`: Generated at runtime.
+     - `app-session-id`: Generated at runtime.
+     - `funnel-session-id`: Generated at runtime.
+     - `app-session-time-elapsed`: Updated with the elapsed session time.
+   - This ensures compliance with Tinder API requirements.
+
+### Example Headers
+
+```json
+{
+    "user-agent": "Tinder Android Version 12.6.0",
+    "os-version": "25",
+    "app-version": "4023",
+    "platform": "android",
+    "platform-variant": "Google-Play",
+    "x-supported-image-formats": "webp",
+    "accept-language": "en-US",
+    "tinder-version": "12.6.0",
+    "store-Variant": "Play-Store",
+    "persistent-device-id": "123e4567-e89b-12d3-a456-426614174000",
+    "content-type": "application/x-protobuf",
+    "host": "api.gotinder.com",
+    "connection": "close",
+    "accept-encoding": "gzip,deflate, br",
+    "install-id": "123e4567-e89b-12d3-a456-426614174001",
+    "app-session-id": "123e4567-e89b-12d3-a456-426614174002",
+    "funnel-session-id": "123e4567-e89b-12d3-a456-426614174003",
+    "app-session-time-elapsed": "0.123"
+}
+```
+
+### Example Header Initialization
+
+```python
+from config import update_headers
+from utils import generate_device_id, generate_install_id, generate_session_id, SessionTimer
+
+device_id = generate_device_id()
+install_id = generate_install_id()
+app_session_id = generate_session_id()
+funnel_id = generate_session_id()
+session_timer = SessionTimer()
+
+update_headers(
+    device_id=device_id,
+    install_id=install_id,
+    app_session_id=app_session_id,
+    funnel_id=funnel_id,
+    elapsed_time=session_timer.get_elapsed_time()
+)
+```
+
+## **How It Works**
+
+1. **Header Initialization**:
+   - At the start of the script, unique session identifiers are generated and headers are dynamically updated.
+2. **Input Data Loading**:
+   - User data is loaded from `data/input_data.xlsx` or other supported formats (JSON, XML).
+3. **Account Creation**:
+   - For each account, the script validates the input, assigns a random geolocation, and sends the request to Tinder API.
+4. **Token Management**:
+   - If the token expires, it is refreshed automatically using the refresh token.
+5. **Output Generation**:
+   - Results are saved in JSON, Excel, and XML formats for easy reference.
 
 ## **Usage**
 
@@ -193,8 +261,14 @@ python src/create_account.py
 
 - **Token Expired**:
   - Ensure the `refresh_token` is valid and the refresh URL in `token_manager.py` is correct.
+  - If you encounter a `401 Unauthorized` error, ensure your `refresh_token` is valid.
+  - Check the `logs/app.log` file for detailed error messages.
+- **HTTP Errors**:
+  - Ensure that your internet connection is stable.
+  - Refer to the error logs to identify specific issues with the API response.
 - **Missing Dependencies**:
   - Install missing libraries with `pip install -r requirements.txt`.
+
 
 ## **License**
 
