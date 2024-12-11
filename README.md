@@ -13,6 +13,7 @@ This project provides a script to create Tinder accounts using the Tinder API. I
   - XML
 - Modular design for easy maintenance and scalability.
 - Automatic token refreshing for seamless API interactions.
+- Unit tests to ensure code reliability.
 
 ## **Requirements**
 
@@ -21,6 +22,7 @@ This project provides a script to create Tinder accounts using the Tinder API. I
   - `requests`
   - `pandas`
   - `openpyxl`
+  - `unittest` (built-in with Python)
 
 - A valid Snapchat API token saved in `data/snapchat_token.json`.
 
@@ -168,6 +170,8 @@ update_headers(
    - If the token expires, it is refreshed automatically using the refresh token.
 6. **Output Generation**:
    - Results are saved in JSON, Excel, and XML formats for easy reference.
+7. **Unit Tests**:
+   - Tests validate the functionality of key components to ensure reliability.
 
 ## **Usage**
 
@@ -188,10 +192,21 @@ python src/snapchat_data_fetcher.py
 ```
 
 The script will:
-
 - Use the authentication details from `data/snapchat_token.json`.
 - Fetch the user’s name and images from Snapchat API.
 - Save the data to `data/snapchat_user_data.json`.
+
+### Run Unit Tests
+
+To ensure everything works as expected, run the unit tests:
+
+```bash
+python -m unittest discover tests
+```
+
+This will:
+- Validate the `create_tinder_account` function.
+- Test the `validate_account_data` and `random_location` utilities.
 
 ### Example Output (`data/snapchat_user_data.json`)
 
@@ -249,6 +264,13 @@ Locations are randomized for each account using the `random_location()` function
 ### `src/locations.py`
 
 - Contains a list of geolocations for randomization.
+
+### `tests/test_create_account.py`
+
+- Unit tests for the project:
+  - Tests `create_tinder_account` for successful account creation.
+  - Validates error handling for missing account fields.
+  - Tests the functionality of `random_location`.
 
 ## **Examples**
 
