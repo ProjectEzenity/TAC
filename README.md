@@ -1,10 +1,11 @@
 # Tinder Account Creator
 
-This project provides a script to create Tinder accounts using the Tinder API. It supports generating accounts with randomized geolocation data and saving account details in multiple formats such as JSON, Excel, and XML. The project is modular and designed for scalability, including token refreshing functionality and external location management.
+This project provides a script to create Tinder accounts using the Tinder API. It supports generating accounts with randomized geolocation data and saving account details in multiple formats such as JSON, Excel, and XML. The project also includes functionality to fetch Snapchat user data such as name and images using the Snapchat API. The project is modular and designed for scalability, including token refreshing functionality and external location management.
 
 ## **Features**
 
 - Create Tinder accounts using the API.
+- Fetch Snapchat user data, including name and profile images, using the Snapchat API.
 - Randomized geolocation selection for diverse user profiles.
 - Supports saving account details in:
   - JSON
@@ -20,6 +21,8 @@ This project provides a script to create Tinder accounts using the Tinder API. I
   - `requests`
   - `pandas`
   - `openpyxl`
+
+- A valid Snapchat API token saved in `data/snapchat_token.json`.
 
 ## **Setup Instructions**
 
@@ -54,6 +57,7 @@ TAC/
 │   ├── data_providers.py        # Load data from files
 │   ├── locations.py             # List of geolocations
 │   ├── output_manager.py        # Functions to save data in various formats
+│   ├── snapchat_data_fetcher.py # Script to fetch Snapchat user data
 │   ├── token_manager.py         # Token handling logic
 │   ├── utils.py                 # Utility functions
 ├── tests/
@@ -77,7 +81,7 @@ TAC/
      ```
 
 2. **Snapchat Token**:
-   - If required, save your Snapchat token in `data/snapchat_token.json`:
+   - Obtain a valid Snapchat API token and save it in `data/snapchat_token.json`:
 
      ```json
      {
@@ -158,19 +162,47 @@ update_headers(
    - User data is loaded from `data/input_data.xlsx` or other supported formats (JSON, XML).
 3. **Account Creation**:
    - For each account, the script validates the input, assigns a random geolocation, and sends the request to Tinder API.
-4. **Token Management**:
+4. **Snapchat Data Fetching**:
+   - Fetches user data, including name and profile images, using the Snapchat API.
+5. **Token Management**:
    - If the token expires, it is refreshed automatically using the refresh token.
-5. **Output Generation**:
+6. **Output Generation**:
    - Results are saved in JSON, Excel, and XML formats for easy reference.
 
 ## **Usage**
 
-### Run the Script
+### Run the Script to Create Accounts
 
 To create accounts, run the main script:
 
 ```bash
 python src/create_account.py
+```
+
+### Run the Script to Fetch Snapchat User Data
+
+To fetch Snapchat user data, run the script:
+
+```bash
+python src/snapchat_data_fetcher.py
+```
+
+The script will:
+
+- Use the authentication details from `data/snapchat_token.json`.
+- Fetch the user’s name and images from Snapchat API.
+- Save the data to `data/snapchat_user_data.json`.
+
+### Example Output (`data/snapchat_user_data.json`)
+
+```json
+{
+    "name": "John Doe",
+    "images": [
+        "https://snapchat-profile-image-url-1.com",
+        "https://snapchat-profile-image-url-2.com"
+    ]
+}
 ```
 
 ### Output Files
@@ -192,6 +224,13 @@ Locations are randomized for each account using the `random_location()` function
   - Input validation.
   - Token refreshing.
   - Saving results in multiple formats.
+
+### `src/snapchat_data_fetcher.py`
+
+- Fetches Snapchat user data, including:
+  - Name.
+  - Profile images.
+  - Saves results to JSON.
 
 ### `src/token_manager.py`
 
@@ -264,6 +303,10 @@ python src/create_account.py
   - Ensure the `refresh_token` is valid and the refresh URL in `token_manager.py` is correct.
   - If you encounter a `401 Unauthorized` error, ensure your `refresh_token` is valid.
   - Check the `logs/app.log` file for detailed error messages.
+- **Snapchat API Errors**:
+  - Ensure the access token in `snapchat_token.json` is valid and has not expired.
+  - If you encounter a `401 Unauthorized` error, generate a new token and update the file.
+  - Check the `logs/snapchat_fetch.log` file for detailed error messages.
 - **HTTP Errors**:
   - Ensure that your internet connection is stable.
   - Refer to the error logs to identify specific issues with the API response.
