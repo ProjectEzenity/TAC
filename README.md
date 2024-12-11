@@ -40,21 +40,22 @@ pip install -r requirements.txt
 
 ```text
 TAC/
-├── src/
-│   ├── create_account.py        # Main script to create accounts
-│   ├── utils.py                 # Utility functions
-│   ├── token_manager.py         # Token handling logic
-│   ├── output_manager.py        # Functions to save data in various formats
-│   ├── config.py                # Configuration file for constants
-│   ├── locations.py             # List of geolocations
 ├── data/
-│   ├── input_data.xlsx          # Input data template
-│   ├── snapchat_token.json      # Snapchat token file
-│   ├── tinder_token.json        # Tinder token file
 │   ├── output/
 │   │   ├── accounts.json        # JSON output file
 │   │   ├── accounts.xlsx        # Excel output file
 │   │   ├── accounts.xml         # XML output file
+│   ├── input_data.xlsx          # Input data template
+│   ├── snapchat_token.json      # Snapchat token file
+│   ├── tinder_token.json        # Tinder token file
+├── src/
+│   ├── config.py                # Configuration file for constants
+│   ├── create_account.py        # Main script to create accounts
+│   ├── data_providers.py        # Load data from files
+│   ├── locations.py             # List of geolocations
+│   ├── output_manager.py        # Functions to save data in various formats
+│   ├── token_manager.py         # Token handling logic
+│   ├── utils.py                 # Utility functions
 ├── tests/
 │   ├── test_create_account.py   # Unit tests for the project
 ├── LICENSE                      # GNU General Public License v3.0
@@ -268,7 +269,6 @@ python src/create_account.py
   - Refer to the error logs to identify specific issues with the API response.
 - **Missing Dependencies**:
   - Install missing libraries with `pip install -r requirements.txt`.
-
 
 ## **License**
 
